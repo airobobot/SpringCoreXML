@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+       http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
+
+	
+	<context:annotation-config/>
+    <context:property-placeholder location="classpath:pointsconfig.properties" />
+	<context:component-scan base-package="com.asish.springcore"/>
+	
+	<bean id ="triangle" class="com.asish.springcore.Triangle">
+		<property name="Type" value="Equilateral"/>
+	</bean>
+	
+
+	
+	<bean id ="TriangleAutowireExample" class="com.asish.springcore.TriangleAutowireExample" autowire="byName"/>
+	
+	<bean id ="TriangleAutowireQualifierValue" class="com.asish.springcore.TriangleAutowireQualifierValue" />
+	
+	<bean id ="circle" class="com.asish.springcore.Circle">
+		<property name="Type" value="half-circle"/>
+		<property name="radius" value="10"/>
+	</bean>
+	
+	<bean id ="CircleConstructorValueInjection" class="com.asish.springcore.CircleConstructorValueInjection">
+		<constructor-arg  index="0" type="String" value="Asish Constructor injection @0"/>
+	</bean>
+	
+	<bean id = "pointA" class="com.asish.springcore.Point">
+		<property name ="x" value ="${pointA.pointX}"/>
+		<property name ="y" value ="20"/>
+		<property name ="z" value ="30"/>
+	</bean>
+	
+	<bean id = "pointB" class="com.asish.springcore.Point">
+		<property name ="x" value ="10"/>
+		<property name ="y" value ="20"/>
+		<property name ="z" value ="30"/>
+	</bean>
+	
+	<bean id = "pointC" class="com.asish.springcore.Point">
+		<property name ="x" value ="10"/>
+		<property name ="y" value ="20"/>
+		<property name ="z" value ="30"/>
+	</bean>
+	
+	<bean id = "pointE" class="com.asish.springcore.Point">
+		<property name ="x" value ="105"/>
+		<property name ="y" value ="205"/>
+		<property name ="z" value ="305"/>
+	</bean>
+	
+	<bean id = "pointF" class="com.asish.springcore.Point">
+		<property name ="x" value ="150"/>
+		<property name ="y" value ="250"/>
+		<property name ="z" value ="350"/>
+	</bean>
+	<bean id = "pointRefB" class="com.asish.springcore.PointRef">
+		<property name ="pointA" ref ="pointA"/>
+		<property name ="pointB" ref ="pointB"/>
+		<property name ="pointC" ref ="pointC"/>
+		<property name="pointD">
+		<list>
+		<ref bean ="pointE"/>  
+		<ref bean ="pointF"/>  
+		</list>
+		
+		</property>
+		
+	</bean>
+	
+	<bean id = "pointRefA" class="com.asish.springcore.PointRef" parent="pointRefB">
+		
+		<property name ="pointC">
+			<bean class="com.asish.springcore.Point">
+				<property name ="x" value ="1150"/>
+		<property name ="y" value ="1250"/>
+			</bean>
+		
+		</property>
+		<property name="pointD">
+		<list merge="true">
+		<ref bean ="pointC"/>  
+		<ref bean ="pointB"/>  
+		</list>
+		
+		</property>
+		
+	</bean>
+
+	</beans>
